@@ -3,22 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Batalha Pokémon - FIFO</title>
-  <link rel="stylesheet" href="style.css?v=4.0"/>
+  <title>Batalha Pokémon - Fila FIFO</title>
+  <link rel="stylesheet" href="style.css?v=7.0"/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Batalha Pokémon - Desafie o Chefe!</h1>
+  <div id="background"></div>
+  <div id="particles-js"></div>
+  
+  <h1 style="font-size: 2.2rem;">Batalha Pokémon - Desafie o Chefe!</h1>
 
-  <div id="chefe-container"></div>
+  <div id="chefe-container">
+    <div class="health-bar-container">
+      <div class="health-bar">
+        <div class="health-bar-fill" id="chefe-health" style="background: linear-gradient(to right, #00cc00, #00ff00);"></div>
+      </div>
+      <span>CHARIZARD</span>
+    </div>
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" alt="CHARIZARD" class="pokemon-chefe"/>
+    <p>TIPO: FOGO</p>
+  </div>
 
   <div class="botoes-container">
-    <button id="adicionar-desafiante">Adicionar Desafiante</button>
-    <button id="batalhar">Batalhar</button>
+    <button id="adicionar-desafiante" style="font-size: 1.1rem;">Adicionar Desafiante</button>
+    <button id="batalhar" style="font-size: 1.1rem;">Batalhar</button>
   </div>
 
   <div id="fila-container">
-    <h2>Fila de Desafiantes</h2>
+    <h2 style="font-size: 1.8rem;">Fila de Desafiantes</h2>
     <ul id="fila-lista"></ul>
   </div>
 
@@ -34,6 +46,9 @@
   <!-- Som de batalha -->
   <audio id="som-batalha" src="battle.mp3" preload="auto"></audio>
 
-  <script src="script.js?v=4.0"></script>
+  <!-- Biblioteca de partículas -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script src="script.js?v=7.0"></script>
 </body>
 </html>
