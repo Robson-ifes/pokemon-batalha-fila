@@ -42,9 +42,9 @@ Este é um projeto web que simula batalhas entre Pokémons desafiantes e um chef
 
 ---
 
-## 📸 Capturas de Tela
-
-> _Você pode adicionar aqui imagens da interface do projeto quando quiser._
+## 📺 Demonstração
+Clique no link abaixo para acessar a versão online do projeto:
+👉 [Acessar Projeto no GitHub Pages](https://robson-ifes.github.io/pokemon-batalha-fila)
 
 ---
 
