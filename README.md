@@ -44,3 +44,34 @@ Este é um projeto web que simula batalhas entre Pokémons desafiantes e um chef
 
 ## 📂 Organização do Projeto
 
+📁 projeto/ ├── index.html ├── style.css ├── script.js └── assets/ └── som-batalha.mp3
+
+yaml
+Copiar
+Editar
+
+---
+
+## 📸 Capturas de Tela
+
+> _Você pode adicionar aqui imagens da interface do projeto quando quiser._
+
+---
+
+## 📌 Observações
+
+- O sistema de vitória/derrota é aleatório por enquanto. Pode ser estendido para lógica baseada nos tipos dos Pokémons.
+- Ranking é salvo apenas localmente (no navegador do usuário).
+- Experiência otimizada para desktop.
+
+---
+
+## 🧑‍💻 Autor
+
+Desenvolvido por [Seu Nome Aqui].
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT.
