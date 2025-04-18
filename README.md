@@ -50,7 +50,7 @@ Este é um projeto web que simula batalhas entre Pokémons desafiantes e um chef
 
 ## 📌 Observações
 
-- O sistema de vitória/derrota é aleatório por enquanto. Pode ser estendido para lógica baseada nos tipos dos Pokémons.
+- O sistema de vitória/derrota é aleatório em 50% dos casos e em 50% dos casos é utilizado o poder dos Pokémons.
 - Ranking é salvo apenas localmente (no navegador do usuário).
 - Experiência otimizada para desktop.
 
