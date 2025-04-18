@@ -320,3 +320,209 @@ button:active {
 .health-bar-fill[style*="width: 50%"] {
   background: linear-gradient(to right, #00cc00, #00ff00) !important;
 }
+
+/* ========== MEDIA QUERIES ========== */
+
+/* Tablets e telas médias (768px a 1024px) */
+@media (max-width: 1024px) {
+  #chefe-container,
+  #fila-container,
+  #resultado-batalha,
+  #ranking {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  #chefe-container img,
+  #fila-lista img,
+  #resultado-batalha img {
+    height: 150px;
+  }
+
+  .health-bar {
+    width: 250px;
+  }
+
+  .versus {
+    margin: 0 15px;
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Smartphones grandes (576px a 767px) */
+@media (max-width: 767px) {
+  body {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  #chefe-container img,
+  #fila-lista img,
+  #resultado-batalha img {
+    height: 120px;
+  }
+
+  .health-bar {
+    width: 200px;
+    height: 25px;
+  }
+
+  .batalha-resultado {
+    flex-direction: column;
+  }
+
+  .versus {
+    margin: 15px 0;
+    font-size: 1.3rem;
+  }
+
+  .pokemon-battle {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  #fila-lista li {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin: 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Smartphones pequenos (até 575px) */
+@media (max-width: 575px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  #chefe-container,
+  #fila-container,
+  #resultado-batalha,
+  #ranking {
+    padding: 15px;
+  }
+
+  #chefe-container img,
+  #fila-lista img,
+  #resultado-batalha img {
+    height: 100px;
+  }
+
+  .health-bar {
+    width: 160px;
+    height: 20px;
+  }
+
+  .health-bar-container span {
+    font-size: 0.7rem;
+  }
+
+  .venceu, .perdeu {
+    font-size: 1.2rem;
+  }
+
+  #fila-lista li {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pokemon-info {
+    margin-top: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  /* Ajuste especial para partículas em telas pequenas */
+  #particles-js {
+    display: none; /* Melhora performance em dispositivos mais lentos */
+  }
+}
+
+/* Telas muito pequenas (até 400px) */
+@media (max-width: 400px) {
+  #chefe-container img,
+  #fila-lista img,
+  #resultado-batalha img {
+    height: 80px;
+  }
+
+  .health-bar {
+    width: 120px;
+  }
+
+  .versus {
+    font-size: 1.1rem;
+  }
+
+  #ranking li {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #ranking .posicao,
+  #ranking .vencedor,
+  #ranking .dano,
+  #ranking .data {
+    margin: 3px 0;
+  }
+}
+
+/* Orientação paisagem em smartphones */
+@media (max-height: 500px) and (orientation: landscape) {
+  #chefe-container,
+  #fila-container,
+  #resultado-batalha,
+  #ranking {
+    margin: 15px auto;
+    padding: 10px;
+  }
+
+  #fila-lista {
+    max-height: 150px;
+  }
+
+  #chefe-container img,
+  #fila-lista img,
+  #resultado-batalha img {
+    height: 80px;
+  }
+
+  .health-bar {
+    width: 120px;
+    height: 15px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+}
