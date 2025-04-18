@@ -42,16 +42,6 @@ Este é um projeto web que simula batalhas entre Pokémons desafiantes e um chef
 
 ---
 
-## 📂 Organização do Projeto
-
-📁 projeto/ ├── index.html ├── style.css ├── script.js └── assets/ └── som-batalha.mp3
-
-yaml
-Copiar
-Editar
-
----
-
 ## 📸 Capturas de Tela
 
 > _Você pode adicionar aqui imagens da interface do projeto quando quiser._
@@ -68,7 +58,7 @@ Editar
 
 ## 🧑‍💻 Autor
 
-Desenvolvido por [Seu Nome Aqui].
+Desenvolvido por Robson Silva Ribeiro.
 
 ---
 
