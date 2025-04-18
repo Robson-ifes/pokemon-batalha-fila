@@ -1,0 +1,207 @@
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(to right, #1a2a3a, #2d3b4a);
+  color: white;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0 #000;
+  color: #ffde00;
+  font-size: 1.5rem;
+}
+
+.botoes-container {
+  margin: 25px 0;
+}
+
+button {
+  background-color: #ffde00;
+  border: 3px solid #cc0000;
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s;
+  font-weight: bold;
+  box-shadow: 0 5px 0 #cc0000;
+  color: #333;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background-color: #ffcc00;
+  transform: translateY(-3px);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #cc0000;
+}
+
+#chefe-container,
+#fila-container,
+#resultado-batalha,
+#ranking {
+  margin: 25px auto;
+  padding: 20px;
+  max-width: 650px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  border: 3px solid #ffde00;
+}
+
+#chefe-container img,
+#fila-lista img,
+#resultado-batalha img {
+  height: 120px;
+  margin: 15px;
+  image-rendering: pixelated;
+}
+
+#fila-lista {
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#fila-lista li {
+  list-style: none;
+  background-color: rgba(255, 222, 0, 0.2);
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #ffde00;
+  font-size: 0.7rem;
+}
+
+/* Efeitos de batalha */
+.efeito {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+}
+
+#efeito-flash {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+#efeito-explosao {
+  width: 200px;
+  height: 200px;
+  background-image: radial-gradient(circle, #ffde00 20%, #ff6600 50%, transparent 80%);
+  border-radius: 50%;
+  transform: scale(0);
+}
+
+.flash {
+  animation: flash 1.5s linear;
+}
+
+.shake {
+  animation: shake 1s ease-in-out;
+}
+
+.explosao {
+  animation: explosao 1.5s ease-out forwards;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 0; }
+  20% { opacity: 0.9; }
+  40% { opacity: 0.2; }
+  60% { opacity: 0.7; }
+  80% { opacity: 0.3; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-15px); }
+  20%, 40%, 60%, 80% { transform: translateX(15px); }
+}
+
+@keyframes explosao {
+  0% { transform: scale(0.1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.batalha-resultado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.versus {
+  font-size: 1.2rem;
+  margin: 0 20px;
+  color: #ffde00;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.venceu {
+  color: #4caf50;
+  text-shadow: 2px 2px 0 #000;
+  font-size: 1.2rem;
+}
+
+.perdeu {
+  color: #f44336;
+  text-shadow: 2px 2px 0 #000;
+  font-size: 1.2rem;
+}
+
+#ranking ul {
+  padding: 0;
+  list-style-type: none;
+  font-size: 0.7rem;
+}
+
+#ranking li {
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(255, 222, 0, 0.3);
+  border-radius: 8px;
+  border: 2px solid #ffde00;
+  display: flex;
+  justify-content: space-between;
+}
+
+.destaque-entrada {
+  animation: entrada 0.8s ease-out;
+}
+
+@keyframes entrada {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Barra de rolagem */
+#fila-lista::-webkit-scrollbar {
+  width: 8px;
+}
+
+#fila-lista::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+#fila-lista::-webkit-scrollbar-thumb {
+  background: #ffde00;
+  border-radius: 10px;
+}

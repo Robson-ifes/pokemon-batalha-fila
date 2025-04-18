@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Batalha Pokémon - FIFO</title>
+  <link rel="stylesheet" href="style.css?v=4.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h1>Batalha Pokémon - Desafie o Chefe!</h1>
+
+  <div id="chefe-container"></div>
+
+  <div class="botoes-container">
+    <button id="adicionar-desafiante">Adicionar Desafiante</button>
+    <button id="batalhar">Batalhar</button>
+  </div>
+
+  <div id="fila-container">
+    <h2>Fila de Desafiantes</h2>
+    <ul id="fila-lista"></ul>
+  </div>
+
+  <div id="resultado-batalha"></div>
+
+  <!-- Efeitos visuais fixos -->
+  <div id="efeito-flash" class="efeito"></div>
+  <div id="efeito-explosao" class="efeito"></div>
+  
+  <!-- Ranking -->
+  <div id="ranking"></div>
+
+  <!-- Som de batalha -->
+  <audio id="som-batalha" src="battle.mp3" preload="auto"></audio>
+
+  <script src="script.js?v=4.0"></script>
+</body>
+</html>
