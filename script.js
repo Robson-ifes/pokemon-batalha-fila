@@ -2,7 +2,7 @@ const fila = [];
 const chefe = {
   nome: "CHARIZARD",
   imagem: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
-  tipo: "FOGO",
+  tipo: "FIRE",
   vida: 100
 };
 
@@ -10,7 +10,29 @@ const chefe = {
 let danoChefe = 0;
 let danoDesafiante = 0;
 
-// Configuração das partículas
+// Sistema de vantagens de tipo (baseado nos jogos Pokémon)
+const typeAdvantages = {
+  NORMAL: { weak: ["ROCK", "STEEL"], strong: [] },
+  FIRE: { weak: ["WATER", "ROCK", "FIRE", "DRAGON"], strong: ["GRASS", "ICE", "BUG", "STEEL"] },
+  WATER: { weak: ["GRASS", "WATER", "DRAGON"], strong: ["FIRE", "GROUND", "ROCK"] },
+  ELECTRIC: { weak: ["GROUND", "GRASS", "ELECTRIC", "DRAGON"], strong: ["WATER", "FLYING"] },
+  GRASS: { weak: ["FIRE", "GRASS", "POISON", "FLYING", "BUG", "DRAGON", "STEEL"], strong: ["WATER", "GROUND", "ROCK"] },
+  ICE: { weak: ["FIRE", "WATER", "ICE", "STEEL"], strong: ["GRASS", "GROUND", "FLYING", "DRAGON"] },
+  FIGHTING: { weak: ["FLYING", "POISON", "BUG", "PSYCHIC", "FAIRY"], strong: ["NORMAL", "ICE", "ROCK", "DARK", "STEEL"] },
+  POISON: { weak: ["POISON", "GROUND", "ROCK", "GHOST"], strong: ["GRASS", "FAIRY"] },
+  GROUND: { weak: ["GRASS", "BUG"], strong: ["FIRE", "ELECTRIC", "POISON", "ROCK", "STEEL"] },
+  FLYING: { weak: ["ELECTRIC", "ROCK", "STEEL"], strong: ["GRASS", "FIGHTING", "BUG"] },
+  PSYCHIC: { weak: ["PSYCHIC", "STEEL", "DARK"], strong: ["FIGHTING", "POISON"] },
+  BUG: { weak: ["FIRE", "FIGHTING", "POISON", "FLYING", "GHOST", "STEEL", "FAIRY"], strong: ["GRASS", "PSYCHIC", "DARK"] },
+  ROCK: { weak: ["FIGHTING", "GROUND", "STEEL"], strong: ["FIRE", "ICE", "FLYING", "BUG"] },
+  GHOST: { weak: ["DARK"], strong: ["PSYCHIC", "GHOST"] },
+  DRAGON: { weak: ["STEEL"], strong: ["DRAGON"] },
+  DARK: { weak: ["FIGHTING", "DARK", "FAIRY"], strong: ["PSYCHIC", "GHOST"] },
+  STEEL: { weak: ["FIRE", "WATER", "ELECTRIC", "STEEL"], strong: ["ICE", "ROCK", "FAIRY"] },
+  FAIRY: { weak: ["FIRE", "POISON", "STEEL"], strong: ["FIGHTING", "DRAGON", "DARK"] }
+};
+
+// Configuração das partículas (mantida do original)
 const particlesConfig = {
   "particles": {
     "number": {
@@ -104,14 +126,10 @@ function initParticles() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializar partículas
   initParticles();
-
-  // Configurar eventos
   document.getElementById("batalhar").addEventListener("click", iniciarBatalha);
   document.getElementById("adicionar-desafiante").addEventListener("click", adicionarDesafiante);
 
-  // Pré-carregar áudio
   const audio = document.getElementById("som-batalha");
   audio.volume = 0.5;
   audio.load();
@@ -125,7 +143,6 @@ function atualizarBarraVida() {
   const healthBar = document.getElementById("chefe-health");
   healthBar.style.width = `${chefe.vida}%`;
   
-  // Mudar cor conforme a vida
   if (chefe.vida <= 0) {
     healthBar.style.background = "#ff0000";
   } else if (chefe.vida < 20) {
@@ -137,6 +154,19 @@ function atualizarBarraVida() {
   } else {
     healthBar.style.background = "linear-gradient(to right, #00cc00, #00ff00)";
   }
+}
+
+// Função para calcular vantagem de tipo
+function calculateTypeAdvantage(attackerType, defenderType) {
+  const attacker = typeAdvantages[attackerType];
+  if (!attacker) return 1;
+
+  if (attacker.strong.includes(defenderType)) {
+    return 1.5;
+  } else if (attacker.weak.includes(defenderType)) {
+    return 0.5;
+  }
+  return 1;
 }
 
 async function adicionarDesafiante() {
@@ -155,7 +185,6 @@ async function adicionarDesafiante() {
     fila.push(desafiante);
     atualizarFila();
     
-    // Efeito visual ao adicionar
     const lista = document.getElementById("fila-lista");
     const itens = lista.getElementsByTagName('li');
     if (itens.length > 0) {
@@ -182,7 +211,7 @@ function atualizarFila() {
         <span>${poke.nome}</span>
       </div>
       <div class="pokemon-info">
-        <span>#${i + 1} - ${poke.nome} (${poke.tipo})</span>
+        <span>#${i + 1} - ${poke.nome} <span class="type-badge type-${poke.tipo.toLowerCase()}">${poke.tipo}</span></span>
         <img src="${poke.imagem}" alt="${poke.nome}"/>
       </div>
     `;
@@ -196,32 +225,44 @@ function iniciarBatalha() {
     return;
   }
 
-  // Mudar fundo para modo batalha
   document.getElementById("background").className = "bg-battle";
-
-  // Desativar botões durante a batalha
   const botoes = document.querySelectorAll('button');
   botoes.forEach(botao => botao.disabled = true);
 
-  const desafiante = fila[0]; // Pega o primeiro mas não remove ainda
-  const resultado = Math.random() > 0.5 ? "venceu" : "perdeu";
-
-  // Calcular dano
-  danoChefe = Math.floor(Math.random() * 30) + 10;
-  danoDesafiante = Math.floor(Math.random() * 30) + 10;
+  const desafiante = fila[0];
   
-  // Aplicar danos
+  // Calcula vantagens de tipo
+  const vantagemDesafiante = calculateTypeAdvantage(desafiante.tipo, chefe.tipo);
+  const vantagemChefe = calculateTypeAdvantage(chefe.tipo, desafiante.tipo);
+  
+  // Calcula dano base com vantagem de tipo
+  const danoBaseDesafiante = Math.floor(Math.random() * 30) + 10;
+  const danoBaseChefe = Math.floor(Math.random() * 30) + 10;
+  
+  danoDesafiante = Math.floor(danoBaseDesafiante * vantagemDesafiante);
+  danoChefe = Math.floor(danoBaseChefe * vantagemChefe);
+  
+  // Aplica danos reais
   chefe.vida = Math.max(0, chefe.vida - danoDesafiante);
   desafiante.vida = Math.max(0, desafiante.vida - danoChefe);
   
+  // Decide resultado baseado na vida restante
+  let resultado;
+  if (chefe.vida <= 0) {
+    resultado = "venceu";
+  } else if (desafiante.vida <= 0) {
+    resultado = "perdeu";
+  } else {
+    resultado = danoDesafiante > danoChefe ? "venceu" : "perdeu";
+  }
+
   atualizarBarraVida();
   atualizarFila();
 
-  // Efeito de dano no chefe
+  // Efeitos visuais
   const chefeImg = document.querySelector('.pokemon-chefe');
   chefeImg.classList.add("damage-effect");
   
-  // Efeito de dano no desafiante
   const desafianteItem = document.querySelector('#fila-lista li:first-child');
   if (desafianteItem) {
     desafianteItem.classList.add("damage-effect");
@@ -232,20 +273,16 @@ function iniciarBatalha() {
     if (desafianteItem) desafianteItem.classList.remove("damage-effect");
   }, 500);
 
-  // 1. Iniciar flash
   const flash = document.getElementById("efeito-flash");
   flash.classList.add("flash");
   
-  // 2. Tocar som de batalha após 300ms
   setTimeout(() => {
     const audio = document.getElementById("som-batalha");
     audio.currentTime = 0;
     audio.play().catch(e => console.log("Erro ao tocar som:", e));
     
-    // 3. Fazer o chefe tremer
     chefeImg.classList.add("shake");
     
-    // 4. Mostrar explosão
     const explosao = document.getElementById("efeito-explosao");
     const rect = chefeImg.getBoundingClientRect();
     explosao.style.left = `${rect.left + rect.width/2 - 150}px`;
@@ -253,44 +290,29 @@ function iniciarBatalha() {
     explosao.classList.add("explosao");
   }, 300);
 
-  // 5. Mostrar resultado após 2 segundos
   setTimeout(() => {
-    // Ajustar vidas conforme resultado
     if (resultado === "venceu") {
-      // Desafiante venceu (fica com 50% de vida)
-      fila[0].vida = 50;
-      // Chefe perdeu (vida zerada)
+      fila[0].vida = Math.max(1, desafiante.vida);
       chefe.vida = 0;
     } else {
-      // Desafiante perdeu (remove da fila)
       fila.shift();
-      // Chefe venceu (fica com 50% de vida)
-      chefe.vida = 50;
+      chefe.vida = Math.max(1, chefe.vida);
     }
     
-    // Atualizar displays
     atualizarBarraVida();
     atualizarFila();
+    mostrarResultado(desafiante, resultado, vantagemDesafiante, vantagemChefe);
     
-    // Mostrar resultado
-    mostrarResultado(desafiante, resultado);
-    
-    // Mudar fundo conforme resultado
     document.getElementById("background").className = resultado === "venceu" ? "bg-victory" : "bg-defeat";
-    
-    // Reativar botões
     botoes.forEach(botao => botao.disabled = false);
     
-    // Remover classes de animação
     flash.classList.remove("flash");
     chefeImg.classList.remove("shake");
     const explosao = document.getElementById("efeito-explosao");
     explosao.classList.remove("explosao");
 
-    // Resetar fundo após 3 segundos
     setTimeout(() => {
       document.getElementById("background").className = "bg-normal";
-      // Resetar vida do chefe se necessário
       if (resultado === "venceu") {
         setTimeout(() => {
           chefe.vida = 100;
@@ -301,12 +323,19 @@ function iniciarBatalha() {
   }, 2000);
 }
 
-function mostrarResultado(desafiante, resultado) {
-  // Determinar vidas para exibição
-  const vidaDesafiante = resultado === "venceu" ? 50 : 0;
-  const vidaChefe = resultado === "venceu" ? 0 : 50;
+function mostrarResultado(desafiante, resultado, vantagemDesafiante, vantagemChefe) {
+  const vidaDesafiante = resultado === "venceu" ? desafiante.vida : 0;
+  const vidaChefe = resultado === "venceu" ? 0 : chefe.vida;
 
-  // Mostrar resultado
+  let tipoMessage = "";
+  if (vantagemDesafiante > 1) {
+    tipoMessage = `(Super efetivo! ${desafiante.tipo} > ${chefe.tipo})`;
+  } else if (vantagemDesafiante < 1) {
+    tipoMessage = `(Não muito efetivo... ${desafiante.tipo} < ${chefe.tipo})`;
+  } else {
+    tipoMessage = `(Dano normal)`;
+  }
+
   const resultadoHTML = `
     <h2>${desafiante.nome} VS ${chefe.nome}</h2>
     <div class="batalha-resultado">
@@ -317,6 +346,7 @@ function mostrarResultado(desafiante, resultado) {
           </div>
         </div>
         <img src="${desafiante.imagem}" alt="${desafiante.nome}" />
+        <span class="type-badge type-${desafiante.tipo.toLowerCase()}">${desafiante.tipo}</span>
       </div>
       <span class="versus">VS</span>
       <div class="pokemon-battle">
@@ -326,10 +356,12 @@ function mostrarResultado(desafiante, resultado) {
           </div>
         </div>
         <img src="${chefe.imagem}" alt="${chefe.nome}" />
+        <span class="type-badge type-${chefe.tipo.toLowerCase()}">${chefe.tipo}</span>
       </div>
     </div>
     <h3 class="${resultado}">${desafiante.nome} ${resultado.toUpperCase()}!</h3>
-    <p>Dano causado: ${resultado === "venceu" ? danoDesafiante : danoChefe}%</p>
+    <p>Dano causado: ${resultado === "venceu" ? danoDesafiante : danoChefe}% ${tipoMessage}</p>
+    <p>Vantagem: ${(vantagemDesafiante > 1 ? "A favor do desafiante" : vantagemChefe > 1 ? "A favor do chefe" : "Neutra")}</p>
   `;
   
   document.getElementById("resultado-batalha").innerHTML = resultadoHTML;
@@ -351,13 +383,13 @@ function salvarRanking(nome) {
       hour: '2-digit',
       minute: '2-digit'
     }),
-    vida: 50 // Vida restante do chefe
+    vida: 50
   });
   localStorage.setItem("ranking-pokemon", JSON.stringify(ranking));
 }
 
 function atualizarRanking() {
-  const ranking = JSON.parse(localStorage.getItem("ranking-pokemon") || []);
+  const ranking = JSON.parse(localStorage.getItem("ranking-pokemon") || "[]");
   const div = document.getElementById("ranking");
   
   if (ranking.length > 0) {
